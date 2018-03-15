@@ -1,0 +1,5 @@
+rootProject.name = 'grpc-learn'
+include 'proto'
+include 'common'
+include 'server'
+include 'client'
