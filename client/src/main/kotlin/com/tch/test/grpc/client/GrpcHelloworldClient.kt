@@ -1,8 +1,8 @@
 package com.tch.test.grpc.client
 
 import com.tch.test.grpc.common.Environment
-import com.tch.test.grpc.server.helloworld.GreeterGrpc
-import com.tch.test.grpc.server.helloworld.HelloRequest
+import com.tch.test.grpc.helloworld.GreeterGrpc
+import com.tch.test.grpc.helloworld.HelloRequest
 import io.grpc.ManagedChannelBuilder
 import java.util.concurrent.TimeUnit
 

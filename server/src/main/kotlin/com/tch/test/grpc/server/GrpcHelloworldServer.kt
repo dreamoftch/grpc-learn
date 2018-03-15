@@ -1,9 +1,9 @@
 package com.tch.test.grpc.server
 
 import com.tch.test.grpc.common.Environment
-import com.tch.test.grpc.server.helloworld.GreeterGrpc
-import com.tch.test.grpc.server.helloworld.HelloReply
-import com.tch.test.grpc.server.helloworld.HelloRequest
+import com.tch.test.grpc.helloworld.GreeterGrpc
+import com.tch.test.grpc.helloworld.HelloReply
+import com.tch.test.grpc.helloworld.HelloRequest
 import io.grpc.ServerBuilder
 import io.grpc.stub.StreamObserver
 
