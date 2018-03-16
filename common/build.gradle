@@ -7,9 +7,12 @@ repositories {
     mavenLocal()
 }
 
+def grpcVersion = "1.4.0"
+
 dependencies {
     compile "org.jetbrains.kotlin:kotlin-stdlib"
     compile 'org.slf4j:slf4j-api:1.7.21'
+    compile "io.grpc:grpc-protobuf:${grpcVersion}"
 }
 
 buildscript {
