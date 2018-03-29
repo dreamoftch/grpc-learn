@@ -11,12 +11,12 @@ import java.util.*
  */
 class SimpleRecoveryJob: Job {
 
-    private val _log = LoggerFactory.getLogger(SimpleRecoveryJob::class.java)
+    private val logger = LoggerFactory.getLogger(SimpleRecoveryJob::class.java)
 
     override fun execute(context: JobExecutionContext) {
         val jobKey = context.getJobDetail().key
 
-        _log.info("SimpleRecoveryJob: " + jobKey + " execute at " + Date().date2String())
+        logger.info("SimpleRecoveryJob: " + jobKey + " execute at " + Date().date2String())
     }
 
 }

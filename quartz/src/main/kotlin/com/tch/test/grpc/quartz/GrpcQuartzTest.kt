@@ -13,16 +13,18 @@ import org.slf4j.LoggerFactory
  * Created by tianch on 2018/3/29.
  */
 
-private val _log = LoggerFactory.getLogger(GrpcQuartzTest::class.java)
+private val logger = LoggerFactory.getLogger(GrpcQuartzTest::class.java)
 
-class GrpcQuartzTest {}
+class GrpcQuartzTest
 
 fun main(args: Array<String>) {
     val sched = StdSchedulerFactory().scheduler
 
-    sched.clear()
-
-    _log.info("------- Scheduling Jobs ------------------")
+    Runtime.getRuntime().addShutdownHook(Thread({
+        logger.info("begin shutdown scheduler")
+        sched.shutdown(true)
+        logger.info("scheduler has been shutdown ")
+    }))
 
     val job = newJob(SimpleRecoveryJob::class.java).withIdentity("my-job", "my-group") // put triggers in group
             // named after the cluster
@@ -40,7 +42,7 @@ fun main(args: Array<String>) {
 
     sched.scheduleJob(job, trigger)
 
-    _log.info("------- Starting Scheduler ---------------")
+    logger.info("------- begin start scheduler ---------------")
     sched.start()
-    _log.info("------- Started Scheduler ----------------")
+    logger.info("------- scheduler has been started ----------------")
 }
