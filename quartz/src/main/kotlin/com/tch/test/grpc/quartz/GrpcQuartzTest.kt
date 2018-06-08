@@ -5,7 +5,9 @@ import org.quartz.CronScheduleBuilder
 import org.quartz.DateBuilder
 import org.quartz.DateBuilder.futureDate
 import org.quartz.JobBuilder.newJob
+import org.quartz.JobKey
 import org.quartz.TriggerBuilder
+import org.quartz.impl.JobDetailImpl
 import org.quartz.impl.StdSchedulerFactory
 import org.slf4j.LoggerFactory
 
@@ -20,13 +22,18 @@ class GrpcQuartzTest
 fun main(args: Array<String>) {
     val sched = StdSchedulerFactory().scheduler
 
+    val jobKey = JobKey("my-trigger", "my-group")
+    if (sched.checkExists(jobKey)) {
+        sched.deleteJob(jobKey)
+    }
+
     Runtime.getRuntime().addShutdownHook(Thread({
         logger.info("begin shutdown scheduler")
         sched.shutdown(true)
         logger.info("scheduler has been shutdown ")
     }))
 
-    val job = newJob(SimpleRecoveryJob::class.java).withIdentity("my-job", "my-group") // put triggers in group
+    val job = newJob(SimpleRecoveryJob::class.java) // put triggers in group
             // named after the cluster
             // node instance just to
             // distinguish (in logging)
@@ -34,7 +41,8 @@ fun main(args: Array<String>) {
             // where
             //.requestRecovery() // ask scheduler to re-execute this job if it was in progress when the scheduler went
             // down...
-            .build()
+            .build() as JobDetailImpl
+    job.key = jobKey
 
     val trigger = TriggerBuilder.newTrigger().withIdentity("my-trigger", "my-group")
             .startAt(futureDate(1, DateBuilder.IntervalUnit.SECOND))
